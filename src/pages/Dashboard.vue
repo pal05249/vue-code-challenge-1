@@ -250,11 +250,15 @@
 					<input
 						type="text"
 						id="name"
-						pattern="/^[A-Za-z\s]$/"
 						class="form-control"
 						v-model="card_holder_name"
 						title="Only alphabets,space and dots"
 					/>
+					 <p v-show="this.errors.length">
+    					<ul>
+      					<li v-for="error in errors" :key="error"><span class="danger">{{ error }}</span></li>
+    					</ul>
+  					</p>
 				</div>
 			</template>
 
@@ -264,7 +268,7 @@
 					class="btn bg-green text-white"
 					@click="
 						addCard(card_holder_name);
-						closeModal();
+						
 					"
 				>
 					Add
@@ -303,6 +307,7 @@ export default {
 
 	data() {
 		return {
+			errors: [],
 			data: null,
 			card_holder_name: "",
 			activeItem: "debit_cards",
@@ -423,13 +428,23 @@ export default {
 		},
 
 		addCard(name) {
-			if (name.match("^[A-Za-zs]{1,}[.]{0,1}[A-Za-zs]{0,}$")) {
+			this.errors = [];
+			const regex = /^(?:[a-zA-Z][a-zA-Z\s\.]*){2,}$/;
+	
+			if (regex.exec(name)) {
 				this.card_lists.push({ name: name, exp_date: this.getRandomExpDate() });
 				localStorage.cards = JSON.stringify(this.card_lists);
+				
+				this.closeModal();
 			} else {
-				alert("Only alphabets,dots and spaces allowed");
-				this.card_holder_name = "";
+				this.errors.push("Only alphabets with dot and spaces allowed!");
+			
+				setTimeout(function(){ 
+					this.errors=[]
+  					}.bind(this), 4000);
+				
 			}
+			this.card_holder_name = "";
 		},
 
 		deleteCard(i) {
@@ -444,6 +459,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.danger{
+	color:red;
+	font-weight: bold;
+	font-size: 0.8rem;
+}
 #debit-card {
 	position: relative;
 	top: 2rem;
