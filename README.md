@@ -3,6 +3,8 @@
 
 ## Project setup
 ```
+clone the project 
+cd vue-code-challenge-1
 npm install
 ```
 
