@@ -1,83 +1,4 @@
 <template>
-	<!-- <div class="row">
-		<div class="col-lg-3">
-			<div class="text-white sidebar">
-				<div class="logo">
-					<a href="/">
-						<img :src="logo" alt="logo" />
-					</a>
-					<p class="logo-text">
-						Trusted way of banking for 3,000+ SMEs and startups in Singapore
-					</p>
-				</div>
-
-				<div class="navigation">
-					<ul class="nav nav-pills flex-column">
-						<li class="nav-item mb-5">
-							<a href="#" class="text-white" aria-current="page"
-								><img :src="home_icon" style="padding-right: 1rem" alt="" />
-								Home
-							</a>
-						</li>
-						<li class="nav-item mb-5">
-							<a href="#" class="activated">
-								<img :src="cards_icon" style="padding-right: 1rem" alt="" />
-								Cards
-							</a>
-						</li>
-						<li class="nav-item mb-5">
-							<a href="#" class="text-white">
-								<img :src="payments_icon" style="padding-right: 1rem" alt="" />
-								Payments
-							</a>
-						</li>
-						<li class="nav-item mb-5">
-							<a href="#" class="text-white">
-								<img :src="credits_icon" style="padding-right: 1rem" alt="" />
-								Credits
-							</a>
-						</li>
-						<li class="nav-item mb-5">
-							<a href="#" class="text-white">
-								<img :src="settings_icon" style="padding-right: 1rem" alt="" />
-								Settings
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-9">
-			<div class="row">
-				<div class="right-content">
-					<p>Available balance</p>
-					<div class="d-flex align-items-center justify-content-between">
-						<div class="d-flex align-items-center">
-							<span
-								class="badge m-2 py-1 px-2"
-								style="background-color: #01d167"
-								>S$</span
-							>
-							<b style="font-size: 2rem">3,000</b>
-						</div>
-
-						<button
-							class="button d-flex align-items-center justify-content-evenly"
-						>
-							<img :src="add_icon" alt="" />
-							<span>New card</span>
-						</button>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="card w-100">
-					<div class="card-title">HelloWorld</div>
-					<div class="card-body">Helllllo</div>
-				</div>
-			</div>
-		</div>
-	</div> -->
 	<div class="row">
 		<!-- side nav bar -->
 		<div class="col-lg-3 d-lg-flex">
@@ -103,7 +24,7 @@
 							<i class="fa">
 								<img :src="cards_icon" alt="cards_icon" />
 							</i>
-							<span class="nav-text"> Cards </span>
+							<span class="nav-text active"> Cards </span>
 						</a>
 					</li>
 
@@ -180,107 +101,24 @@
 								All company cards
 							</li>
 						</ul>
-						<div class="pt-2 py-5" id="myTabContent">
+						<div class="py-3" id="myTabContent">
 							<div
 								:class="{ 'active show': isActive('debit_cards') }"
 								id="debit_cards"
 							>
 								<!-- card component---------------------------------------- -->
 
-								<Splide :options="{ rewind: true, width: '28rem' }">
-									<SplideSlide
-										ref="splide"
-										v-for="(card, index) in card_lists"
-										:key="index"
-										style="height: 100%; margin-bottom: 2rem"
-									>
-										<div
-											class="card text-white"
-											id="debit-card"
-											style="background-color: #01d167; letter-spacing: 1px"
-										>
-											<p>
-												<img
-													style="float: right; padding: 1.5rem"
-													:src="logo_white"
-													alt="logo_white"
-												/>
-											</p>
-											<p
-												class="h3"
-												style="font-weight: bold; padding-left: 1rem"
-											>
-												{{ card.name }}
-											</p>
-											<div
-												class="card-body"
-												style="
-													font-size: 0.8rem;
-													font-weight: bold;
-													padding-bottom: 0.5rem;
-												"
-											>
-												<span class="dot"></span>
-												<span class="dot"></span>
-												<span class="dot"></span>
-												<span class="dot"></span>
-
-												<span class="dot"></span>
-												<span class="dot"></span>
-												<span class="dot"></span>
-												<span class="dot"></span>
-
-												<span class="dot"></span>
-												<span class="dot"></span>
-												<span class="dot"></span>
-												<span class="dot"></span>
-
-												<span class="ps-1">2</span>
-												<span class="ps-1">0</span>
-												<span class="ps-1">2</span>
-												<span class="ps-1">0</span>
-											</div>
-											<div
-												class="row mx-2 align-items-center"
-												style="font-size: 0.8rem; font-weight: bold"
-											>
-												<div class="col">Thru:12/20</div>
-
-												<div
-													class="col"
-													style="position: relative; right: 3rem"
-												>
-													CVV:
-													<span
-														style="
-															font-size: 1rem;
-															position: relative;
-															top: 3px;
-														"
-														>***</span
-													>
-												</div>
-											</div>
-											<p>
-												<img
-													style="
-														float: right;
-														padding-bottom: 1rem;
-														padding-right: 1.5rem;
-													"
-													:src="visa_logo"
-													alt="visa_logo"
-												/>
-											</p>
-										</div>
-									</SplideSlide>
-								</Splide>
+								<carousel
+									:card_lists="card_lists"
+									ref="carousel-item"
+									@mounted="execute(value)"
+								/>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="mx-auto col-sm-12 text-dark" id="scrollable">
+			<div class="col-sm-12 text-dark" id="scrollable">
 				<ul class="scroll-nav text-center">
 					<li>
 						<img :src="freeze_card_icon" alt="" />
@@ -454,18 +292,18 @@
 </template>
 
 <script>
-import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import Modal from "../components/Modal.vue";
+import carousel from "../components/Carousel.vue";
 export default {
 	name: "Dashboard",
 	components: {
 		Modal,
-		Splide,
-		SplideSlide,
+		carousel,
 	},
 
 	data() {
 		return {
+			data: null,
 			card_holder_name: "",
 			activeItem: "debit_cards",
 			isModalVisible: false,
@@ -494,11 +332,8 @@ export default {
 			card_icon: require("../assets/asset/business-and-finance.svg"),
 			recent_transactions_icon: require("../assets/asset/Group 11889-1.svg"),
 			// ------------------------------------------------------------------
-			card_lists: [
-				{
-					name: "Mark Henry",
-				},
-			],
+			card_lists: [],
+
 			recent_transactions: [
 				{
 					title: "Hamleys",
@@ -537,12 +372,30 @@ export default {
 		};
 	},
 	mounted() {
-		// this.card_lists = localStorage.getItem("cardList")==null
-		// 	? [{ name: "Mark henry" }]
-		// 	: localStorage.getItem("cardList");
+		this.setData();
 	},
 
 	methods: {
+		setData() {
+			if (localStorage.cards == null) {
+				if (this.card_lists.length == 0) {
+					this.card_lists = [
+						{
+							name: "Mark henry",
+							exp_date: this.getRandomExpDate(),
+						},
+					];
+					localStorage.cards = JSON.stringify(this.card_lists);
+				}
+			} else {
+				this.card_lists = JSON.parse(localStorage.cards);
+			}
+		},
+		getRandomExpDate() {
+			return `${Math.floor(Math.random() * (12 - 0 + 1)) + 1}/${
+				Math.floor(Math.random() * (30 - 20 + 1)) + 20
+			}`;
+		},
 		// nav tabs
 		isActive(menuItem) {
 			return this.activeItem === menuItem;
@@ -563,8 +416,6 @@ export default {
 		// Modal-cancelling card
 		showModal2() {
 			this.isModalVisible2 = true;
-			// const splide = new Splide();
-			console.log(this.$refs.splide.target);
 		},
 
 		closeModal2() {
@@ -572,13 +423,13 @@ export default {
 		},
 
 		addCard(name) {
-			if (name.match("^[A-Za-zs]{1,}[.]{0,1}[A-Za-zs]{0,}$"))
-				this.card_lists.push({ name: name });
-			else {
+			if (name.match("^[A-Za-zs]{1,}[.]{0,1}[A-Za-zs]{0,}$")) {
+				this.card_lists.push({ name: name, exp_date: this.getRandomExpDate() });
+				localStorage.cards = JSON.stringify(this.card_lists);
+			} else {
 				alert("Only alphabets,dots and spaces allowed");
 				this.card_holder_name = "";
 			}
-			// localStorage.setItem("cardList", this.card_lists);
 		},
 
 		deleteCard(i) {
@@ -593,10 +444,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-button.splide__pagination__page.is-active {
-	/* color: #01d167 !important; */
-	background-color: #01d167 !important;
-}
 #debit-card {
 	position: relative;
 	top: 2rem;
@@ -825,7 +672,7 @@ nav.main-nav li.active > a {
 	}
 }
 /* for mobile devices */
-@media (max-width: 35em) {
+@media (max-width: 560px) {
 	.new-card {
 		border: 1px solid #f5f5f5;
 		filter: drop-shadow(0 0 #0000000a blur);
@@ -833,6 +680,7 @@ nav.main-nav li.active > a {
 	}
 	#scrollable {
 		/* border-top-right-radius: 25px; */
+		width: 100%;
 		z-index: 2;
 		position: relative;
 		top: 10rem;
@@ -856,6 +704,7 @@ nav.main-nav li.active > a {
 		display: flex;
 		justify-content: justify-content-evenly;
 		font-size: 0.7rem;
+		widows: 100%;
 		padding: 0 1rem;
 		list-style-type: none;
 		color: #0c365a;
@@ -884,8 +733,8 @@ nav.main-nav li.active > a {
 		background-color: #0c365a;
 		height: 100vh;
 		color: white;
-		margin: 0 auto;
-		/* padding: 0; */
+		margin: 0;
+		/* padding: 1rem; */
 	}
 	.main-nav ul {
 		display: table;
@@ -937,6 +786,12 @@ nav.main-nav li.active > a {
 		/* padding: 0.25rem; */
 		color: #23cefd;
 		text-decoration: none;
+	}
+	.nav-text.active {
+		color: #01d167;
+	}
+	.nav-text {
+		font-weight: bold;
 	}
 }
 </style>
