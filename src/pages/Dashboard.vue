@@ -256,7 +256,7 @@
 					/>
 					 <p v-show="this.errors.length">
     					<ul>
-      					<li v-for="error in errors" :key="error"><span class="danger">{{ error }}</span></li>
+      					<li v-for="error in errors" class="danger" :key="error"><span >{{ error }}</span></li>
     					</ul>
   					</p>
 				</div>
@@ -463,6 +463,7 @@ export default {
 	color:red;
 	font-weight: bold;
 	font-size: 0.8rem;
+	list-style-type: none;
 }
 #debit-card {
 	position: relative;
