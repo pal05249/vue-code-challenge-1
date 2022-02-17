@@ -127,8 +127,9 @@ export default defineComponent({
 .dot:nth-child(4n) {
 	margin-right: 1rem !important;
 }
-.card--styles {
-	background-color: #01d167;
+
+.card--styles  {
+	background-color: #536DFF;
 	letter-spacing: 1px;
 	width: 20rem;
 	color: white;
@@ -144,8 +145,13 @@ export default defineComponent({
 /* .carousel__pagination-button.carousel__pagination-button--active {
 	background-color: rgb(1 209 103) !important;
 } */
+.carousel__slide--active div.card{
+	background-color: #01d167;
+
+}
 .carousel__slide > .carousel__item {
 	/* height: 15rem; */
+	margin-left:10px;
 	transform: scale(1);
 	opacity: 0.5;
 	transition: 0.5s;
@@ -155,10 +161,10 @@ export default defineComponent({
 	transform: rotateY(0);
 }
 .carousel__slide--next > .carousel__item {
-	transform: scale(0.9) translate(-25px);
+	transform: scale(0.9) translate(-23px);
 }
 .carousel__slide--prev > .carousel__item {
-	transform: scale(0.9) translate(10px);
+	transform: scale(0.9) translate(15px);
 }
 /* .carousel__slide--active > .carousel__item {
 	transform: scale(1.1);
