@@ -1,8 +1,8 @@
 <template>
-	<Carousel :itemsToShow="1.1" :wrapAround="false">
+	<Carousel :itemsToShow="1.1" :wrapAround="false" @toggle="toggle_card_number()">
 		<Slide v-for="(card, index) in card_lists" :key="index">
 			<div class="carousel__item"  >
-						<div class="card p-1" id="show-card-no"  :class="card.isFrozen">	
+						<div class="card " id="show-card-no"  :class="card.isFrozen" @click="toggle()">	
 				 			<span><img :src="eye_icon" alt="eye_icon"> Show card number</span>
 						</div>
 				<div class="card card--styles"  :class="card.isFrozen"  id="debit-card" style="">
@@ -24,25 +24,7 @@
 						{{ card.name }}
 					</h5>
 					<div class="card-body card-body--styles" >
-						<span class="dot"></span>
-						<span class="dot"></span>
-						<span class="dot"></span>
-						<span class="dot"></span>
-
-						<span class="dot"></span>
-						<span class="dot"></span>
-						<span class="dot"></span>
-						<span class="dot"></span>
-
-						<span class="dot"></span>
-						<span class="dot"></span>
-						<span class="dot"></span>
-						<span class="dot"></span>
-
-						<span class="ps-1">2</span>
-						<span class="ps-1">0</span>
-						<span class="ps-1">2</span>
-						<span class="ps-1">0</span>
+						<span v-for="(number,index) in card.card_number" :key="number" :class="[index<12?'dot':'']" class="ps-1 card-number">{{index>11?number:''}}</span>
 					</div>
 					<div
 						class="row mx-2 align-items-center"
@@ -96,6 +78,7 @@ export default defineComponent({
 
 	data() {
 		return {
+			show_card_number:false,
 			data: null,
 			visa_logo: require("../assets/asset/Visa Logo.svg"),
 			logo_white: require("../assets/asset/Logo-2.svg"),
@@ -103,17 +86,32 @@ export default defineComponent({
 			eye_icon:require("../assets/asset/remove_red_eye-24px.svg")
 		};
 	},
+	compute:{
+		show:function(){
+			if(show_card_number) return "dot"
+		}
+	},
+	methods:{
+		toggle_card_number(){
+			console.log('works')
+			this.show_card_number=!this.show_card_number;
+		}
+	}
 });
 </script>
 
 <style scoped>
 #debit-card {
+	height:220px;
+	width:358px;
 	position: relative;
 	border-radius: 1rem;
-	height: 100%;
+	/* height: 100%; */
 	margin: 1rem auto;
 }
 .card__h3--style {
+	position:relative;
+	top:1rem;	
 	font-weight: bold;
 }
 #frozen-logo{
@@ -137,15 +135,18 @@ export default defineComponent({
 .dot {
 	height: 0.4rem;
 	width: 0.4rem;
-	margin: 0.1rem;
+	margin: 0.1rem 0.2rem;
 	position: relative;
-	top: 3px;
+	/* top: 3px; */
 	background-color: rgb(255, 255, 255);
 	border-radius: 50%;
 	display: inline-block;
 }
-.dot:nth-child(4n) {
+.dot:nth-child(4n-4) {
 	margin-right: 1rem !important;
+}
+.card-number:nth-child(4n){
+margin-right: 1rem !important;
 }
 
 #show-card-no{
@@ -153,13 +154,16 @@ export default defineComponent({
 	background-color:#FFFFFF;
 	position: relative;
 	top:2rem;
-	left:11rem;
+	left:12.25rem;
 	height: 2.5rem;
 	width:45%;
-	font-size:0.7rem;
-	font-weight: bold;
+	font-size:0.8rem;
+	/* font-weight: bold; */
 	z-index: -5;
 	color:#01D167;	
+}
+#show-card-no>span{
+	padding-top:2px;
 }
 
 .card--styles  {
@@ -171,6 +175,7 @@ export default defineComponent({
 	/* padding-left: 0.5rem; */
 }
 .card-body--styles {
+	margin-top:1rem;
 	font-size: 0.8rem;
 	font-weight: bold;
 	padding-bottom: 0.5rem;
@@ -219,7 +224,7 @@ export default defineComponent({
 	transform: rotateY(0);
 }
 .carousel__slide--next > .carousel__item {
-	transform: scale(0.9) translate(-23px);
+	transform: scale(0.9) translate(-20px);
 }
 .carousel__slide--prev > .carousel__item {
 	transform: scale(0.9) translate(15px);

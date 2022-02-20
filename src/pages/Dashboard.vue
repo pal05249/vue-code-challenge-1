@@ -1,7 +1,8 @@
 <template>
 	<div class="row">
 		<!-- side nav bar -->
-		<div class="col-lg-3 d-lg-flex">
+		<div class="row">
+			<div class="col-lg-3 d-lg-flex">
 			<nav class="main-nav">
 				<div class="logo">
 					<a href="/">
@@ -56,6 +57,8 @@
 				</ul>
 			</nav>
 		</div>
+		</div>
+		
 		<!-- right content -->
 		<div class="container">
 			<div class="content col-sm-12 col-lg-9">
@@ -121,7 +124,8 @@
 				</div>
 			</div>
 			<div class="col-sm-12 text-dark" id="scrollable">
-				<ul class="scroll-nav text-center">
+				<div class="row">
+						<ul class="scroll-nav text-center">
 		
 					<li @click="freezeCard()">
 						<img :src="freeze_card_icon" alt="" />
@@ -144,8 +148,10 @@
 						<p>Cancel Card</p>
 					</li>
 				</ul>
-
-				<div class="card bg-white">
+				</div>
+				
+			<div class="row" >
+				<div class="card bg-white" style="border:none">
 					<div class="card new-card m-3">
 						<div class="d-flex justify-content-between mx-3 my-3">
 							<div>
@@ -238,9 +244,12 @@
 								</div>
 								<hr />
 							</div>
+							<div class="card" id="card-bottom" ><p>View all card transactions</p></div>
 						</div>
 					</div>
 				</div>
+</div>
+				
 			</div>
 		</div>
 		<!-- Modal for adding new card ---------------------------------------------->
@@ -401,9 +410,10 @@ export default {
 				if (this.card_lists.length == 0) {
 					this.card_lists = [
 						{
-							name: "Mark henry",
+							name: "Mark Henry",
 							exp_date: this.getRandomExpDate(),
 							isFrozen: "",
+							card_number:"1234567891232020"
 						},
 					];
 					localStorage.cards = JSON.stringify(this.card_lists);
@@ -416,6 +426,9 @@ export default {
 			return `${Math.floor(Math.random() * (12 - 0 + 1)) + 1}/${
 				Math.floor(Math.random() * (30 - 20 + 1)) + 20
 			}`;
+		},
+		 getRandomCardNumber() {
+  			return Math.random().toFixed(16).split('.')[1];
 		},
 		// nav tabs
 		isActive(menuItem) {
@@ -452,6 +465,7 @@ export default {
 					name: name,
 					exp_date: this.getRandomExpDate(),
 					isFrozen: "",
+					card_number:this.getRandomCardNumber(),
 				});
 				localStorage.cards = JSON.stringify(this.card_lists);
 
@@ -495,6 +509,23 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#card-bottom{
+	width:100%;
+	border-top-right-radius: 0;
+	border-top-left-radius:0;
+	background-color: #EDFFF5;
+	border: 1px solid #DDFFEC;
+	color: #01D167;
+	text-align: center;
+	z-index:0;
+	position:relative;
+	
+}
+#card-bottom p{
+	margin: 1rem auto;
+	font-size:0.8rem;
+	font-weight: bold;
+}
 .danger {
 	color: red;
 	font-weight: bold;
@@ -527,7 +558,7 @@ hr {
 	border: 0;
 	margin: 0 auto;
 	height: 1px;
-	background: #000;
+	background: rgba(0, 0, 0, 0.24);
 	opacity: 0.2;
 }
 
@@ -736,14 +767,19 @@ nav.main-nav li.active > a {
 		background-color: #fafcff;
 	}
 	#scrollable {
-		/* border-top-right-radius: 25px; */
+		background: white;
+		border-top-right-radius: 25px;
+		border-top-left-radius: 25px;
 		width: 100%;
 		z-index: 2;
 		position: relative;
-		top: 10rem;
-		/* bottom: 5rem; */
-		height: 100%;
+		/* top: 10rem; */
+		min-height: 1000px;
+		/* bottom: 1rem; */
+		/* height: 100%; */
 	}
+	
+
 	.content {
 		position: sticky;
 		top: 0;
@@ -775,6 +811,7 @@ nav.main-nav li.active > a {
 	}
 
 	.main-nav {
+		box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.178); 
 		background: #ffffff;
 		border-right: 1px solid #e5e5e5;
 		/* position: fixed; */
