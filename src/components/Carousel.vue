@@ -2,7 +2,7 @@
 	<Carousel :itemsToShow="1.1" :wrapAround="false" @toggle="toggle_card_number()">
 		<Slide v-for="(card, index) in card_lists" :key="index">
 			<div class="carousel__item"  >
-						<div class="card " id="show-card-no"  :class="card.isFrozen" @click="toggle()">	
+						<div class="card" id="show-card-no"  :class="card.isFrozen" @click="toggle()">	
 				 			<span><img :src="eye_icon" alt="eye_icon"> Show card number</span>
 						</div>
 				<div class="card card--styles"  :class="card.isFrozen"  id="debit-card" style="">
@@ -24,7 +24,7 @@
 						{{ card.name }}
 					</h5>
 					<div class="card-body card-body--styles" >
-						<span v-for="(number,index) in card.card_number" :key="number" :class="[index<12?'dot':'']" class="ps-1 card-number">{{index>11?number:''}}</span>
+						<span v-for="(number,index) in card.card_number" :key="index" :class="[index<12?'dot':'']" class="ps-1 card-number">{{index>11?number:''}}</span>
 					</div>
 					<div
 						class="row mx-2 align-items-center"
@@ -41,11 +41,7 @@
 					</div>
 					<p>
 						<img
-							style="
-								float: right;
-								padding-bottom: 0.5rem;
-								padding-right: 1.5rem;
-							"
+							class="visa_logo"
 							:src="visa_logo"
 							alt="visa_logo"
 						/>
@@ -93,7 +89,6 @@ export default defineComponent({
 	},
 	methods:{
 		toggle_card_number(){
-			console.log('works')
 			this.show_card_number=!this.show_card_number;
 		}
 	}
@@ -101,12 +96,17 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.visa_logo{
+float: right;
+padding-bottom: 0.5rem;
+padding-right: 1.5rem;
+}
 #debit-card {
-	height:220px;
-	width:358px;
+	/* height:auto;
+	width:20rem; */
 	position: relative;
 	border-radius: 1rem;
-	/* height: 100%; */
+	height: 100%;
 	margin: 1rem auto;
 }
 .card__h3--style {
@@ -154,13 +154,14 @@ margin-right: 1rem !important;
 	background-color:#FFFFFF;
 	position: relative;
 	top:2rem;
-	left:12.25rem;
+	left:55%;
 	height: 2.5rem;
 	width:45%;
 	font-size:0.8rem;
 	/* font-weight: bold; */
 	z-index: -5;
 	color:#01D167;	
+
 }
 #show-card-no>span{
 	padding-top:2px;
@@ -214,7 +215,7 @@ margin-right: 1rem !important;
 }
 .carousel__slide > .carousel__item {
 	/* height: 15rem; */
-	margin-left:10px;
+	margin-left:-10px;
 	transform: scale(1);
 	opacity: 0.5;
 	transition: 0.5s;
@@ -224,7 +225,7 @@ margin-right: 1rem !important;
 	transform: rotateY(0);
 }
 .carousel__slide--next > .carousel__item {
-	transform: scale(0.9) translate(-20px);
+	transform: scale(0.9) translate(-22px);
 }
 .carousel__slide--prev > .carousel__item {
 	transform: scale(0.9) translate(15px);

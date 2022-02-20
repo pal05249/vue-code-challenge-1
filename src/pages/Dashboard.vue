@@ -197,15 +197,11 @@
 									</div>
 									<div class="col-sm-8">
 										<p
-											style="
-												font-weight: bold;
-												font-size: 1rem;
-												margin-bottom: 0;
-											"
+											class="transaction-item__title"
 										>
 											{{ item.title }}
 										</p>
-										<p style="opacity: 0.7; font-size: 0.9rem">
+										<p class="transaction-item__date">
 											{{ item.date }}
 										</p>
 										<p>
@@ -216,11 +212,8 @@
 												alt="card_icon"
 											/>
 											<span
-												style="
-													font-size: 0.8rem;
-													color: #325baf;
-													font-weight: bold;
-													margin-left: 2px;
+												class="
+													transaction-item__action
 												"
 												>{{ item.action }}</span
 											>
@@ -228,7 +221,7 @@
 									</div>
 									<div class="col-sm-2">
 										<p
-											style="font-weight: bold"
+											style="font-weight:bold"
 											:style="[
 												item.price > 0
 													? { color: '#01D167' }
@@ -236,7 +229,7 @@
 											]"
 										>
 											{{
-												item.price > 0 ? "+S$" + item.price : "-S$" + item.price
+												item.price > 0 ? "+S$" + item.price : "-S$" + Math.abs(item.price)
 											}}
 											<img :src="next_icon" class="p-2" alt="" />
 										</p>
@@ -296,7 +289,7 @@
 			</template>
 
 			<template v-slot:footer>
-				<button type="button" class="btn btn-danger" @click="deleteCard();closeModal2()">
+				<button type="button" class="btn btn-danger" @click="deleteCard();">
 					Yes
 				</button>
 				<button type="button" class="btn btn-secondary" @click="closeModal2()">
@@ -509,6 +502,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 #card-bottom{
 	width:100%;
 	border-top-right-radius: 0;
@@ -632,62 +626,7 @@ nav.main-nav li.active > a {
 	font-size: 1.03rem;
 	text-decoration: none;
 }
-/* for tab screens */
-@media only screen and (min-width: 35em) and (max-width: 992px) {
-	.fa {
-		display: table-cell;
-		width: 5rem;
-		height: 5rem;
-	}
 
-	nav.main-nav {
-		width: 24%;
-		overflow: visible;
-	}
-	.main-nav:hover,
-	nav.main-nav.expanded {
-		width: 15em;
-		overflow: visible;
-	}
-	.main-nav {
-		top: 0;
-		bottom: 0;
-		height: 100%;
-		left: 0;
-		width: 5rem;
-		overflow: hidden;
-		-webkit-transition: width 0.05s linear;
-		transition: width 0.05s linear;
-		-webkit-transform: translateZ(0) scale(1, 1);
-	}
-
-	.main-nav li {
-		text-decoration: none;
-		position: relative;
-		display: block;
-		width: 3rem;
-	}
-	.main-nav li > a {
-		position: relative;
-		display: table;
-		-webkit-transform: translateZ(0) scale(1, 1);
-		-webkit-transition: all 0.1s linear;
-		transition: all 0.1s linear;
-	}
-
-	.main-nav .nav-text {
-		position: relative;
-		display: table-cell;
-		vertical-align: middle;
-		width: 10rem;
-	}
-	.logo {
-		margin: 3rem;
-	}
-	.logo-text {
-		display: none;
-	}
-}
 /* for large screens */
 @media (min-width: 992px) {
 	.fa {
@@ -761,6 +700,21 @@ nav.main-nav li.active > a {
 }
 /* for mobile devices */
 @media (max-width: 560px) {
+	.transaction-item__action{
+		font-size: 0.8rem;
+		color: #325baf;
+		font-weight: bold;
+		margin-left: 2px;
+	}
+	.transaction-item__date
+	{
+		opacity: 0.7; font-size: 0.9rem
+	}
+	.transaction-item__title{
+		font-weight: bold;
+		font-size: 1rem;
+		margin-bottom: 0;
+	}
 	.new-card {
 		border: 1px solid #f5f5f5;
 		filter: drop-shadow(0 0 #0000000a blur);
