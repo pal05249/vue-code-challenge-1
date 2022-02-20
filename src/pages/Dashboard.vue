@@ -112,6 +112,8 @@
 									:card_lists="card_lists"
 									ref="carousel-item"
 									@mounted="execute(value)"
+									v-model="currentSlide"
+									
 								/>
 							</div>
 						</div>
@@ -120,9 +122,10 @@
 			</div>
 			<div class="col-sm-12 text-dark" id="scrollable">
 				<ul class="scroll-nav text-center">
-					<li>
+		
+					<li @click="freezeCard()">
 						<img :src="freeze_card_icon" alt="" />
-						<p>Freeze card</p>
+						<p>{{freeze_status}}</p>
 					</li>
 					<li>
 						<img :src="set_spend_limit_icon" alt="" />
@@ -284,7 +287,7 @@
 			</template>
 
 			<template v-slot:footer>
-				<button type="button" class="btn btn-danger" @click="closeModal2()">
+				<button type="button" class="btn btn-danger" @click="deleteCard();closeModal2()">
 					Yes
 				</button>
 				<button type="button" class="btn btn-secondary" @click="closeModal2()">
@@ -309,6 +312,7 @@ export default {
 		return {
 			errors: [],
 			data: null,
+			currentSlide: 0,
 			card_holder_name: "",
 			activeItem: "debit_cards",
 			isModalVisible: false,
@@ -376,10 +380,21 @@ export default {
 			],
 		};
 	},
-	mounted() {
+	created() {
 		this.setData();
+	
 	},
-
+	computed: {
+		freeze_status: function () {
+			if (this.card_lists.length!==0)
+				{
+				if(this.card_lists[this.currentSlide].isFrozen=="frozen")
+				return "UnFreeze card";}
+		
+				 return "Freeze card";
+			
+		},
+	},
 	methods: {
 		setData() {
 			if (localStorage.cards == null) {
@@ -388,6 +403,7 @@ export default {
 						{
 							name: "Mark henry",
 							exp_date: this.getRandomExpDate(),
+							isFrozen: "",
 						},
 					];
 					localStorage.cards = JSON.stringify(this.card_lists);
@@ -430,25 +446,45 @@ export default {
 		addCard(name) {
 			this.errors = [];
 			const regex = /^(?:[a-zA-Z][a-zA-Z\s\.]*){2,}$/;
-	
+
 			if (regex.exec(name)) {
-				this.card_lists.push({ name: name, exp_date: this.getRandomExpDate() });
+				this.card_lists.push({
+					name: name,
+					exp_date: this.getRandomExpDate(),
+					isFrozen: "",
+				});
 				localStorage.cards = JSON.stringify(this.card_lists);
-				
+
 				this.closeModal();
 			} else {
-				this.errors.push("Only alphabets with dot and spaces allowed!");
-			
-				setTimeout(function(){ 
-					this.errors=[]
-  					}.bind(this), 4000);
-				
+				this.errors.push("Only alphabets (min 2 letters) with dot and spaces allowed!");
+
+				setTimeout(
+					function () {
+						this.errors = [];
+					}.bind(this),
+					4000
+				);
 			}
 			this.card_holder_name = "";
 		},
 
-		deleteCard(i) {
-			this.card_lists.splice(i, 1);
+		deleteCard() {
+			this.card_lists=JSON.parse(localStorage.cards)
+			this.card_lists.splice(this.currentSlide, 1);
+			this.currentSlide=0;
+			localStorage.cards = JSON.stringify(this.card_lists);
+			this.isModalVisible2=false;
+
+		},
+		freezeCard() {
+			if (this.card_lists[this.currentSlide].isFrozen == "frozen") {
+				this.card_lists[this.currentSlide].isFrozen = "";
+			} else {
+				
+				this.card_lists[this.currentSlide].isFrozen = "frozen";
+			}
+			localStorage.cards = JSON.stringify(this.card_lists);
 		},
 	},
 };
@@ -459,8 +495,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.danger{
-	color:red;
+.danger {
+	color: red;
 	font-weight: bold;
 	font-size: 0.8rem;
 	list-style-type: none;
